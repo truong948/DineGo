@@ -1,0 +1,6 @@
+@DIneGo_HostAddress = http://localhost:5292
+
+GET {{DIneGo_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
