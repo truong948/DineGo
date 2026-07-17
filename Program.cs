@@ -9,9 +9,9 @@ namespace DIneGo
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            // ── Database ───────────────────────────────────────────────────────
-            builder.Services.AddDbContext<AppDbContext>(options =>
-                options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+          var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseNpgsql(connectionString));
 
             // Add services to the container.
             builder.Services.AddControllers();

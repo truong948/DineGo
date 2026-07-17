@@ -7,7 +7,7 @@ services:
     restart: always
     environment:
       POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: 12345678 # Thay bằng mật khẩu của bạn
+      POSTGRES_PASSWORD: 12345678 
       POSTGRES_DB: DineGoDb
     ports:
       - "5432:5432"
