@@ -99,7 +99,12 @@ namespace DineGo.Data
                 entity.Property(e => e.CreatedAt).HasDefaultValueSql("NOW()");
 
                 // ── OPTIMISTIC CONCURRENCY: PostgreSQL xmin system column ──────
-                entity.UseXminAsConcurrencyToken();
+                // Uses xmin (PostgreSQL's built-in row-version system column) as
+                // the optimistic concurrency token — modern Npgsql 8.x pattern.
+                entity.Property<uint>("xmin")
+                      .HasColumnName("xmin")
+                      .ValueGeneratedOnAddOrUpdate()
+                      .IsRowVersion();
 
                 // ── ANTI-DOUBLE-BOOKING: Partial Unique Index ─────────────────
                 // Prevents same table from being double-booked on the same date/time
