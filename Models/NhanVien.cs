@@ -27,6 +27,7 @@ namespace DineGo.Models
         public string? DienThoai { get; set; }
 
         // Navigation
+        public TaiKhoan? TaiKhoan { get; set; }
         public ICollection<PhieuThanhToan> PhieuThanhToans { get; set; } = new List<PhieuThanhToan>();
         public ICollection<PhieuNhapThucPham> PhieuNhapThucPhams { get; set; } = new List<PhieuNhapThucPham>();
     }

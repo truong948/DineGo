@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using DineGo.Models.Enums;
 
 namespace DineGo.Models
 {
@@ -26,6 +27,12 @@ namespace DineGo.Models
         public int CoordinateY { get; set; }
 
         public bool IsActive { get; set; } = true;
+
+        public TrangThaiBan TrangThaiHienTai { get; set; } = TrangThaiBan.Trong;
+
+        public DateTime NgayTao { get; set; } = DateTime.UtcNow;
+
+        public DateTime NgayCapNhat { get; set; } = DateTime.UtcNow;
 
         // Navigation
         public ICollection<PhieuYeuCau> PhieuYeuCaus { get; set; } = new List<PhieuYeuCau>();

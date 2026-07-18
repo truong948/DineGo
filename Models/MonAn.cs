@@ -29,6 +29,9 @@ namespace DineGo.Models
 
         public bool IsAvailable { get; set; } = true;
 
+        [MaxLength(500)]
+        public string? HinhAnh { get; set; }
+
         // Navigation
         [ForeignKey(nameof(MaNhom))]
         public NhomMonAn NhomMonAn { get; set; } = null!;

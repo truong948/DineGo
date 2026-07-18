@@ -21,6 +21,7 @@ namespace DineGo.Data
         public DbSet<NhaCungCap> NhaCungCaps { get; set; }
         public DbSet<PhieuNhapThucPham> PhieuNhapThucPhams { get; set; }
         public DbSet<ChiTietPhieuNhapThucPham> ChiTietPhieuNhapThucPhams { get; set; }
+        public DbSet<TaiKhoan> TaiKhoans { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -56,6 +57,9 @@ namespace DineGo.Data
                 entity.Property(e => e.SoBan).HasMaxLength(20);
                 entity.Property(e => e.LoaiBan).IsRequired().HasMaxLength(50);
                 entity.Property(e => e.IsActive).HasDefaultValue(true);
+                entity.Property(e => e.TrangThaiHienTai).HasDefaultValue(TrangThaiBan.Trong);
+                entity.Property(e => e.NgayTao).HasDefaultValueSql("NOW()");
+                entity.Property(e => e.NgayCapNhat).HasDefaultValueSql("NOW()");
             });
 
             // ── NhomMonAn ──────────────────────────────────────────────────────
@@ -134,6 +138,8 @@ namespace DineGo.Data
                 entity.HasKey(e => e.Id);
                 entity.Property(e => e.MaMon).IsRequired().HasMaxLength(20);
                 entity.Property(e => e.DonGiaDat).HasColumnType("decimal(18,2)");
+                entity.Property(e => e.TrangThaiCheBien).HasDefaultValue(TrangThaiCheBien.ChoCungUng);
+                entity.Property(e => e.GhiChu).HasMaxLength(255);
 
                 // ChiTietPhieuYeuCau -> PhieuYeuCau
                 entity.HasOne(e => e.PhieuYeuCau)
@@ -236,6 +242,22 @@ namespace DineGo.Data
                       .WithMany(t => t.ChiTietPhieuNhapThucPhams)
                       .HasForeignKey(e => e.MaThucPham)
                       .OnDelete(DeleteBehavior.Restrict);
+            });
+
+            // ── TaiKhoan ────────────────────────────────────────────────────────
+            modelBuilder.Entity<TaiKhoan>(entity =>
+            {
+                entity.ToTable("TaiKhoan");
+                entity.HasKey(e => e.MaNV);
+                entity.Property(e => e.TenDangNhap).IsRequired().HasMaxLength(50);
+                entity.Property(e => e.MatKhauHash).IsRequired().HasMaxLength(255);
+                entity.HasIndex(e => e.TenDangNhap).IsUnique();
+
+                // 1-to-1: TaiKhoan <-> NhanVien (Cascade Delete)
+                entity.HasOne(e => e.NhanVien)
+                      .WithOne(n => n.TaiKhoan)
+                      .HasForeignKey<TaiKhoan>(e => e.MaNV)
+                      .OnDelete(DeleteBehavior.Cascade);
             });
         }
     }

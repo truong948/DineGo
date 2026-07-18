@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using DineGo.Models.Enums;
 
 namespace DineGo.Models
 {
@@ -23,6 +24,11 @@ namespace DineGo.Models
 
         [Column(TypeName = "decimal(18,2)")]
         public decimal DonGiaDat { get; set; }
+
+        public TrangThaiCheBien TrangThaiCheBien { get; set; } = TrangThaiCheBien.ChoCungUng;
+
+        [MaxLength(255)]
+        public string? GhiChu { get; set; }
 
         // Navigation
         [ForeignKey(nameof(SoPhieuYeuCau))]
